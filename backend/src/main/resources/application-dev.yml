@@ -1,0 +1,22 @@
+# DEVELOPMENT ONLY. Never use this profile in production.
+spring:
+  flyway:
+    locations: classpath:db/migration,classpath:db/seed
+jemis:
+  security:
+    jwt-secret: dev-only-secret-change-me-dev-only-secret-change-me
+    cors-allowed-origins: http://localhost:5173
+    auth-requests-per-minute: 60
+  bootstrap-admin:
+    email: admin@jemis.local
+    password: Admin12345!
+  payment:
+    mock:
+      enabled: true
+      secret: dev-mock-payment-secret
+  demo-data: true
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
