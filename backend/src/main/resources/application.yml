@@ -1,0 +1,77 @@
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  application:
+    name: jemis-backend
+  datasource:
+    url: ${JEMIS_DB_URL:jdbc:postgresql://localhost:5432/jemis}
+    username: ${JEMIS_DB_USER:jemis}
+    password: ${JEMIS_DB_PASSWORD:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jackson:
+    default-property-inclusion: non_null
+    deserialization:
+      fail-on-unknown-properties: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+  error:
+    include-message: never
+    include-stacktrace: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+
+springdoc:
+  api-docs:
+    enabled: ${JEMIS_OPENAPI_ENABLED:false}
+  swagger-ui:
+    enabled: ${JEMIS_OPENAPI_ENABLED:false}
+
+jemis:
+  timezone: Asia/Almaty
+  currency: KZT
+  default-locale: ru
+  security:
+    # No default: the application refuses to start without a secret of at least 32 bytes.
+    jwt-secret: ${JEMIS_JWT_SECRET:}
+    access-ttl-minutes: 15
+    refresh-ttl-days: 30
+    cors-allowed-origins: ${JEMIS_CORS_ORIGINS:}
+    auth-requests-per-minute: ${JEMIS_AUTH_RATE_LIMIT:10}
+  bootstrap-admin:
+    email: ${JEMIS_BOOTSTRAP_ADMIN_EMAIL:}
+    password: ${JEMIS_BOOTSTRAP_ADMIN_PASSWORD:}
+  orders:
+    customer-cancellable: PENDING_PAYMENT,CONFIRMED,ACCEPTED
+  payment:
+    mock:
+      enabled: false
+      secret: ${JEMIS_MOCK_PAYMENT_SECRET:}
+  demo-data: false
+
+logging:
+  pattern:
+    console: '{"ts":"%d{yyyy-MM-dd''T''HH:mm:ss.SSSXXX}","level":"%p","logger":"%logger{36}","thread":"%t","msg":"%replace(%m){''"'',''\\"''}"%replace(%wEx){''\n'',''\\n''}}%n'

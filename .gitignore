@@ -1,0 +1,23 @@
+# secrets / local env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.jks
+google-services.json
+GoogleService-Info.plist
+key.properties
+
+# build output
+build/
+.gradle/
+node_modules/
+dist/
+.dart_tool/
+.flutter-plugins*
+.pub-cache/
+*.log
+.idea/
+.vscode/
+.DS_Store

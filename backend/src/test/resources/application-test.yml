@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: ${JEMIS_TEST_DB_URL:jdbc:postgresql://localhost:5432/jemis_test}
+    username: ${JEMIS_TEST_DB_USER:jemis}
+    password: ${JEMIS_TEST_DB_PASSWORD:jemis}
+jemis:
+  security:
+    jwt-secret: test-only-secret-test-only-secret-test-only
+    auth-requests-per-minute: 100000
+  bootstrap-admin:
+    email: admin-test@jemis.local
+    password: TestAdmin12345!
+  payment:
+    mock:
+      enabled: true
+      secret: test-mock-payment-secret
