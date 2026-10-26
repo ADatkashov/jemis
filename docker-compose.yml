@@ -1,0 +1,33 @@
+# Local/production-like stack. Requires .env (see .env.example).
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: jemis
+      POSTGRES_USER: jemis
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    volumes: [dbdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jemis"]
+      interval: 5s
+      retries: 10
+  backend:
+    build: ./backend
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      JEMIS_DB_URL: jdbc:postgresql://db:5432/jemis
+      JEMIS_DB_USER: jemis
+      JEMIS_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JEMIS_JWT_SECRET: ${JEMIS_JWT_SECRET:?set JEMIS_JWT_SECRET}
+      JEMIS_CORS_ORIGINS: ${JEMIS_CORS_ORIGINS:-}
+      JEMIS_BOOTSTRAP_ADMIN_EMAIL: ${JEMIS_BOOTSTRAP_ADMIN_EMAIL:-}
+      JEMIS_BOOTSTRAP_ADMIN_PASSWORD: ${JEMIS_BOOTSTRAP_ADMIN_PASSWORD:-}
+      JEMIS_OPENAPI_ENABLED: ${JEMIS_OPENAPI_ENABLED:-false}
+    ports: ["8080:8080"]
+  admin:
+    build: ./admin
+    depends_on: [backend]
+    ports: ["8081:80"]
+volumes:
+  dbdata:
