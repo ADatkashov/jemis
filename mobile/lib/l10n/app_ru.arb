@@ -1,0 +1,278 @@
+{
+  "@@locale": "ru",
+  "appName": "JEMIS",
+  "slogan": "Свежесть у твоей двери",
+  "navHome": "Главная",
+  "navCatalog": "Каталог",
+  "navCart": "Корзина",
+  "navProfile": "Профиль",
+  "searchHint": "Поиск продуктов",
+  "deliverTo": "Доставка по адресу",
+  "chooseAddress": "Выберите адрес",
+  "categories": "Категории",
+  "popular": "Популярное",
+  "freshArrivals": "Новинки",
+  "discounted": "Скидки",
+  "frequentlyBought": "Вы часто покупаете",
+  "seeAll": "Смотреть все",
+  "add": "Добавить",
+  "addToCart": "В корзину",
+  "unavailable": "Нет в наличии",
+  "lowStockLabel": "Осталось мало",
+  "priceByWeight": "Цена указана за {unit}. Итоговая сумма рассчитывается по выбранному весу.",
+  "@priceByWeight": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "description": "Описание",
+  "ingredients": "Состав",
+  "storage": "Условия хранения",
+  "allergens": "Аллергены",
+  "related": "Похожие товары",
+  "brand": "Бренд",
+  "discountBadge": "−{percent}%",
+  "@discountBadge": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "unitPiece": "шт",
+  "unitKg": "кг",
+  "unitG": "г",
+  "unitL": "л",
+  "unitMl": "мл",
+  "unitPack": "уп",
+  "perUnit": "{price} / {unit}",
+  "@perUnit": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "catalogTitle": "Каталог",
+  "allCategories": "Все",
+  "filters": "Фильтры",
+  "sortBy": "Сортировка",
+  "sortPopularity": "По популярности",
+  "sortPriceAsc": "Сначала дешёвые",
+  "sortPriceDesc": "Сначала дорогие",
+  "sortName": "По названию",
+  "sortNewest": "Новинки",
+  "priceRange": "Цена, ₸",
+  "priceFrom": "От",
+  "priceTo": "До",
+  "onlyInStock": "Только в наличии",
+  "onlyDiscounted": "Только со скидкой",
+  "applyFilters": "Применить",
+  "resetFilters": "Сбросить",
+  "noResults": "Ничего не найдено",
+  "noResultsHint": "Измените запрос или сбросьте фильтры",
+  "cartTitle": "Корзина",
+  "cartEmpty": "Корзина пуста",
+  "cartEmptyHint": "Добавьте продукты из каталога",
+  "goShopping": "Перейти в каталог",
+  "clearCart": "Очистить",
+  "clearCartConfirm": "Удалить все товары из корзины?",
+  "subtotal": "Товары",
+  "discount": "Скидка",
+  "deliveryFee": "Доставка",
+  "serviceFee": "Сервисный сбор",
+  "total": "Итого",
+  "free": "Бесплатно",
+  "promoCode": "Промокод",
+  "apply": "Применить",
+  "promoApplied": "Промокод применён",
+  "minOrderNote": "Минимальный заказ — {amount}",
+  "@minOrderNote": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "freeDeliveryNote": "Бесплатная доставка от {amount}",
+  "@freeDeliveryNote": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "checkout": "Оформить заказ",
+  "itemUnavailable": "Недоступно",
+  "itemInsufficient": "Доступно только {qty}",
+  "@itemInsufficient": {
+    "placeholders": {
+      "qty": {
+        "type": "String"
+      }
+    }
+  },
+  "removeItem": "Удалить",
+  "increase": "Увеличить количество",
+  "decrease": "Уменьшить количество",
+  "quantity": "Количество",
+  "errPromoNotFound": "Промокод не найден",
+  "errPromoNotStarted": "Промокод ещё не действует",
+  "errPromoExpired": "Срок действия промокода истёк",
+  "errPromoUsageLimit": "Лимит использований промокода исчерпан",
+  "errPromoCustomerLimit": "Вы уже использовали этот промокод",
+  "errPromoMinOrder": "Сумма заказа меньше минимальной для промокода",
+  "errPromoNotApplicable": "Промокод не подходит к этим товарам",
+  "checkoutTitle": "Оформление заказа",
+  "deliveryAddress": "Адрес доставки",
+  "deliveryTime": "Время доставки",
+  "selectSlotHint": "Выберите удобное время",
+  "today": "Сегодня",
+  "tomorrow": "Завтра",
+  "slotFull": "Мест нет",
+  "noSlots": "Нет доступных окон доставки",
+  "paymentMethod": "Способ оплаты",
+  "payCash": "При получении",
+  "payOnline": "Онлайн",
+  "devOnly": "ТОЛЬКО ДЛЯ РАЗРАБОТКИ",
+  "devPaymentNote": "Тестовая оплата: реальные деньги не списываются",
+  "orderSummary": "Ваш заказ",
+  "placeOrder": "Подтвердить заказ",
+  "orderPlacedTitle": "Заказ оформлен",
+  "orderPlacedHint": "Мы сообщим о каждом этапе доставки",
+  "viewOrder": "Посмотреть заказ",
+  "backToHome": "На главную",
+  "priceChanged": "Цены изменились. Новая сумма: {amount}. Проверьте заказ.",
+  "@priceChanged": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "slotUnavailable": "Это время уже недоступно, выберите другое",
+  "addressNotServiceable": "Мы пока не доставляем по этому адресу",
+  "checkoutBlocked": "Проверьте корзину: некоторые товары недоступны",
+  "minOrderNotMet": "Сумма заказа меньше минимальной",
+  "addAddressFirst": "Добавьте адрес доставки",
+  "ordersTitle": "Мои заказы",
+  "noOrders": "Заказов пока нет",
+  "orderNumber": "Заказ №{number}",
+  "@orderNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelOrder": "Отменить заказ",
+  "cancelOrderConfirm": "Отменить этот заказ?",
+  "reorder": "Повторить заказ",
+  "reorderSkipped": "Часть товаров недоступна и не добавлена",
+  "trackOrder": "Отследить заказ",
+  "orderStatus": "Статус заказа",
+  "courier": "Курьер",
+  "courierPending": "Курьер ещё не назначен",
+  "scheduledWindow": "Время доставки: {window}",
+  "@scheduledWindow": {
+    "placeholders": {
+      "window": {
+        "type": "String"
+      }
+    }
+  },
+  "noLiveTracking": "Отслеживание в реальном времени недоступно. Показан статус заказа.",
+  "lastKnownLocation": "Последнее известное местоположение курьера: {time}",
+  "@lastKnownLocation": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "payNow": "Оплатить",
+  "paymentPending": "Ожидает оплаты",
+  "paymentLabel": "Оплата",
+  "timeline": "История заказа",
+  "contactSupport": "Связаться с поддержкой",
+  "supportNotConfigured": "Контакты поддержки пока не настроены",
+  "statusPENDING_PAYMENT": "Ожидает оплаты",
+  "statusCONFIRMED": "Подтверждён",
+  "statusACCEPTED": "Принят",
+  "statusPREPARING": "Собирается",
+  "statusREADY_FOR_DELIVERY": "Готов к доставке",
+  "statusASSIGNED_TO_COURIER": "Курьер назначен",
+  "statusPICKED_UP": "Курьер забрал заказ",
+  "statusON_THE_WAY": "В пути",
+  "statusDELIVERED": "Доставлен",
+  "statusCANCELLED": "Отменён",
+  "statusREFUNDED": "Возврат средств",
+  "payPENDING": "Ожидает",
+  "paySUCCEEDED": "Оплачен",
+  "payFAILED": "Не оплачен",
+  "payCANCELLED": "Отменена",
+  "payREFUNDED": "Возвращена",
+  "login": "Войти",
+  "register": "Регистрация",
+  "logout": "Выйти",
+  "emailOrPhone": "Email или телефон",
+  "email": "Email",
+  "phone": "Телефон",
+  "password": "Пароль",
+  "fullName": "Имя",
+  "forgotPassword": "Забыли пароль?",
+  "resetRequested": "Если аккаунт существует, мы отправим инструкцию по восстановлению",
+  "noAccount": "Нет аккаунта? Зарегистрироваться",
+  "haveAccount": "Уже есть аккаунт? Войти",
+  "loginRequired": "Войдите, чтобы продолжить",
+  "invalidCredentials": "Неверный логин или пароль",
+  "accountExists": "Аккаунт с такими данными уже существует",
+  "fieldRequired": "Обязательное поле",
+  "invalidEmail": "Некорректный email",
+  "invalidPhone": "Некорректный телефон",
+  "passwordShort": "Минимум 8 символов",
+  "contactRequired": "Укажите email или телефон",
+  "profileTitle": "Профиль",
+  "editProfile": "Редактировать профиль",
+  "addresses": "Адреса",
+  "addAddress": "Добавить адрес",
+  "editAddress": "Изменить адрес",
+  "city": "Город",
+  "street": "Улица",
+  "house": "Дом",
+  "apartment": "Квартира",
+  "entrance": "Подъезд",
+  "floor": "Этаж",
+  "intercom": "Домофон",
+  "recipient": "Получатель",
+  "recipientPhone": "Телефон получателя",
+  "instructions": "Комментарий курьеру",
+  "defaultAddress": "Основной",
+  "makeDefault": "Сделать основным",
+  "delete": "Удалить",
+  "deleteConfirm": "Удалить?",
+  "favorites": "Избранное",
+  "noFavorites": "В избранном пока пусто",
+  "notifications": "Уведомления",
+  "noNotifications": "Уведомлений нет",
+  "notifyOrders": "Уведомления о заказах",
+  "notifyPromos": "Акции и предложения",
+  "pushNotConfigured": "Push-уведомления пока не подключены; сообщения приходят в приложении",
+  "language": "Язык",
+  "deleteAccount": "Удалить аккаунт",
+  "deleteAccountConfirm": "Аккаунт будет заблокирован, а данные удалены после проверки. Продолжить?",
+  "save": "Сохранить",
+  "cancel": "Отмена",
+  "confirm": "Подтвердить",
+  "close": "Закрыть",
+  "retry": "Повторить",
+  "errorGeneric": "Что-то пошло не так",
+  "errorNetwork": "Нет соединения с сервером",
+  "sessionExpired": "Сессия истекла, войдите снова",
+  "kzt": "₸"
+}
