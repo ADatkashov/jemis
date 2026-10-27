@@ -3,6 +3,12 @@
 Backend (Docker) and admin (static site) run on Render via `render.yaml`; PostgreSQL runs on Neon.
 
 ## 1. Neon
+The project already exists: `jemis` (id `royal-brook-04650407`, region `aws-eu-central-1`, Postgres 16, branch `main`,
+database `jemis`, role `jemis`). Direct host: `ep-square-breeze-batpr53y.c-8.eu-central-1.aws.neon.tech`, so
+`JEMIS_DB_URL=jdbc:postgresql://ep-square-breeze-batpr53y.c-8.eu-central-1.aws.neon.tech/jemis?sslmode=require`.
+The role password is only in the Neon console (Connect → role `jemis`); do not commit it.
+
+Generic steps, if you need to recreate it:
 1. Create a project (region close to Render's `frankfurt`, e.g. `aws-eu-central-1`).
 2. Copy the **direct** connection details (host without `-pooler`). Flyway takes advisory locks, which break behind the
    transaction pooler.
