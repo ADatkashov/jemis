@@ -6,11 +6,13 @@
 #   scripts/setup-self-hosted-runner.sh <registration-token>
 #
 # Token: GitHub -> repo Settings -> Actions -> Runners -> New self-hosted runner
-# (valid for 1 hour). Docs: docs/ci-cd.md "Self-hosted runner".
+# (valid for 1 hour). Docs: docs/CI.md "Self-hosted runner".
 set -euo pipefail
 
 REPO="${REPO:-adatkashov/jemis}"
-RUNNER_DIR="${RUNNER_DIR:-$HOME/actions-runner}"
+# One directory per repository: a runner is bound to a single repo, so a runner already set up for another
+# project (e.g. ~/actions-runner) must not be reused.
+RUNNER_DIR="${RUNNER_DIR:-$HOME/actions-runner-$(basename "$REPO")}"
 LABELS="${LABELS:-self-hosted,linux,x64}"
 TOKEN="${1:-}"
 
@@ -18,7 +20,7 @@ TOKEN="${1:-}"
 [ "$(id -u)" -ne 0 ] || { echo "run as a normal user, not root (the runner refuses root)" >&2; exit 2; }
 [ "$(uname -m)" = "x86_64" ] || { echo "this script supports x64 only" >&2; exit 2; }
 
-command -v docker >/dev/null || { echo "Docker is required (the backend CI job runs a PostgreSQL service container): https://docs.docker.com/engine/install/" >&2; exit 1; }
+command -v docker >/dev/null || { echo "Docker is required (CI uses a PostgreSQL service container): https://docs.docker.com/engine/install/" >&2; exit 1; }
 docker info >/dev/null 2>&1 || { echo "current user cannot use Docker: sudo usermod -aG docker \$USER, then log in again" >&2; exit 1; }
 
 sudo apt-get update -y
@@ -41,7 +43,7 @@ if [ -d /run/systemd/system ]; then
   sudo ./svc.sh start
 else
   # WSL without systemd: no service, run it in a terminal that stays open.
-  echo "No systemd (WSL?). Start the runner by hand: cd $RUNNER_DIR && ./run.sh"
+  echo "No systemd (WSL?). Start the runner by hand: cd \"$RUNNER_DIR\" && ./run.sh"
 fi
 echo "Runner installed. Now set the repo variable CI_RUNS_ON to [\"self-hosted\",\"linux\"]"
 echo "(Settings -> Secrets and variables -> Actions -> Variables)."

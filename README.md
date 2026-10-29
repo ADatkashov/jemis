@@ -30,7 +30,7 @@ Captured against the real backend (`dev` profile, demo data). Mobile shots come 
 `cd backend && ./gradlew test` (needs PostgreSQL `jemis_test`, see `application-test.yml`) ·
 `cd admin && npm test && npm run build` · `cd mobile && flutter analyze && flutter test`
 
-CI runs on GitHub-hosted runners by default; to run it on your own machine see [docs/ci-cd.md](docs/ci-cd.md) (self-hosted runner).
+CI runs on GitHub-hosted runners by default; to run it on your own machine see [docs/CI.md](docs/CI.md) (self-hosted runner).
 
 ## Configuration
 See `.env.example`. The backend refuses to start without `JEMIS_JWT_SECRET` (>= 32 bytes).
