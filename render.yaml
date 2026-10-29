@@ -1,0 +1,58 @@
+# Render Blueprint. Database lives on Neon (not defined here).
+# Secrets marked `sync: false` are prompted for on first Blueprint apply; see DEPLOY.md.
+services:
+  - type: web
+    name: jemis-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: starter            # free tier sleeps and would add cold starts on top of Neon's
+    region: frankfurt
+    healthCheckPath: /actuator/health/readiness
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: "8080"        # matches the Dockerfile HEALTHCHECK
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=75
+      # Neon: use the DIRECT (non-pooled) host for Flyway, e.g.
+      # jdbc:postgresql://ep-xxx.eu-central-1.aws.neon.tech/neondb?sslmode=require
+      - key: JEMIS_DB_URL
+        sync: false
+      - key: JEMIS_DB_USER
+        sync: false
+      - key: JEMIS_DB_PASSWORD
+        sync: false
+      # Small pool + long timeout so a suspended Neon compute can wake up.
+      - key: SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE
+        value: "5"
+      - key: SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT
+        value: "30000"
+      - key: JEMIS_JWT_SECRET
+        generateValue: true  # random, >= 32 bytes
+      # The admin SPA is same-origin via the /api rewrite, so CORS is only needed for other web clients.
+      - key: JEMIS_CORS_ORIGINS
+        value: ""
+      - key: JEMIS_BOOTSTRAP_ADMIN_EMAIL
+        sync: false
+      - key: JEMIS_BOOTSTRAP_ADMIN_PASSWORD
+        sync: false
+      - key: JEMIS_OPENAPI_ENABLED
+        value: "false"
+
+  - type: web
+    name: jemis-admin
+    runtime: static
+    rootDir: admin
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    autoDeploy: true
+    routes:
+      # Proxy API calls to the backend (the SPA calls relative /api/v1/...).
+      # Replace the host if the backend service gets a different URL.
+      - type: rewrite
+        source: /api/*
+        destination: https://jemis-backend.onrender.com/api/*
+      - type: rewrite
+        source: /*
+        destination: /index.html
