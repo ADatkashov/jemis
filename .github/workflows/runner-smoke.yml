@@ -1,6 +1,6 @@
 name: Runner smoke test
 
-# Checks that the self-hosted runner picks up jobs (docs/ci-cd.md "Self-hosted runner").
+# Checks that the self-hosted runner picks up jobs (docs/CI.md "Self-hosted runner").
 # Runs on a push that touches this file, or by hand. Costs no Actions minutes.
 on:
   push:
