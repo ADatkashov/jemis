@@ -1,32 +1,61 @@
 name: CI
 on: [push, pull_request]
+
+permissions:
+  contents: read
+
+# Repo variable CI_RUNS_ON switches every job to a self-hosted runner, e.g. ["self-hosted","linux"]
+# (docs/ci-cd.md "Self-hosted runner"); unset = GitHub-hosted ubuntu-latest.
+
 jobs:
   backend:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
+    timeout-minutes: 30
     services:
       postgres:
         image: postgres:16-alpine
         env: { POSTGRES_DB: jemis_test, POSTGRES_USER: jemis, POSTGRES_PASSWORD: jemis }
-        ports: ["5432:5432"]
+        # 5433 on the host: a persistent self-hosted runner may already have PostgreSQL on 5432.
+        ports: ["5433:5432"]
         options: >-
           --health-cmd "pg_isready -U jemis" --health-interval 5s --health-retries 10
+    env:
+      JEMIS_TEST_DB_URL: jdbc:postgresql://localhost:5433/jemis_test
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 17 }
       - uses: gradle/actions/setup-gradle@v4
+        with:
+          # A self-hosted runner keeps ~/.gradle on disk; skip the cloud cache.
+          cache-disabled: ${{ vars.CI_RUNS_ON != '' }}
       - run: cd backend && ./gradlew test --no-daemon
+      - name: Upload test reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-reports
+          path: backend/build/reports/tests/**
+          retention-days: 3
+          if-no-files-found: ignore
   admin:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: cd admin && npm ci && npm run build && npm test
   mobile:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
-        with: { channel: stable }
+        with:
+          # Pinned (as in the zairo repo) so CI doesn't shift when a new Flutter ships; pubspec needs Dart ^3.13.7.
+          flutter-version: "3.47.8"
+          channel: stable
+          # GitHub-hosted only: a self-hosted runner keeps the SDK on disk.
+          cache: ${{ vars.CI_RUNS_ON == '' }}
       - run: cd mobile && flutter pub get && flutter analyze && flutter test
