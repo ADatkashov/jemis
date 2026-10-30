@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import kz.jemis.common.SettingsService;
 import kz.jemis.identity.AuthUser;
 import kz.jemis.order.PaymentMethod;
+import kz.jemis.payment.freedompay.FreedomPayProvider;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +42,19 @@ public class PaymentController {
     @PostMapping("/orders/{orderId}/initiate")
     public PaymentService.PaymentView initiate(@AuthenticationPrincipal AuthUser me, @PathVariable UUID orderId) {
         return service.initiate(me.id(), orderId);
+    }
+
+    /**
+     * Freedom Pay's Result-notify: form-POST in, XML acknowledgement out (its callbacks are not read as JSON). A bad
+     * signature is still rejected with 401 by the service. TODO(freedompay): confirm that this unsigned
+     * {@code pg_status=ok} reply is enough to stop its retries.
+     */
+    @PostMapping(value = "/webhooks/" + FreedomPayProvider.KEY, produces = MediaType.APPLICATION_XML_VALUE)
+    public String freedomPayWebhook(HttpServletRequest request, @RequestBody byte[] body) {
+        Map<String, String> headers = new HashMap<>();
+        request.getHeaderNames().asIterator().forEachRemaining(n -> headers.put(n.toLowerCase(), request.getHeader(n)));
+        service.handleWebhook(FreedomPayProvider.KEY, headers, body);
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><response><pg_status>ok</pg_status></response>";
     }
 
     /** Public endpoint: authenticity comes solely from the provider signature verified inside the service. */
