@@ -1,0 +1,42 @@
+name: Build APK
+
+# Builds a release APK of the mobile app on the self-hosted runner (docs/CI.md "Сборка APK").
+# Run by hand: Actions → Build APK → Run workflow. The file is attached to the run as an artifact.
+on:
+  workflow_dispatch:
+    inputs:
+      api_base_url:
+        description: "API URL baked into the app (e.g. https://jemis-api.onrender.com); empty = repo variable API_BASE_URL"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  apk:
+    runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - uses: android-actions/setup-android@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.8"
+          channel: stable
+          cache: ${{ vars.CI_RUNS_ON == '' }}
+      - name: Build
+        env:
+          API_BASE_URL: ${{ inputs.api_base_url || vars.API_BASE_URL }}
+        run: |
+          cd mobile
+          flutter pub get
+          if [ -n "$API_BASE_URL" ]; then DEFINE="--dart-define=API_BASE_URL=$API_BASE_URL"; else DEFINE=""; fi
+          flutter build apk --release $DEFINE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jemis-apk
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 14
