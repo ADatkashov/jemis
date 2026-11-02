@@ -70,6 +70,17 @@ jemis:
     mock:
       enabled: false
       secret: ${JEMIS_MOCK_PAYMENT_SECRET:}
+    # Real online payments via Freedom Pay (hosted checkout). Off unless enabled; see docs/PAYMENTS_FREEDOM_PAY.md.
+    freedompay:
+      enabled: ${JEMIS_FREEDOMPAY_ENABLED:false}
+      api-url: ${JEMIS_FREEDOMPAY_API_URL:}
+      merchant-id: ${JEMIS_FREEDOMPAY_MERCHANT_ID:}
+      secret-key: ${JEMIS_FREEDOMPAY_SECRET_KEY:}
+      # Unconfirmed: the script name Freedom Pay signs Result-notify callbacks with (merchant panel setting).
+      result-notify-script-name: ${JEMIS_FREEDOMPAY_RESULT_NOTIFY_SCRIPT:result.php}
+      # Where the customer's browser lands after the hosted checkout (UX only, never proof of payment).
+      success-url: ${JEMIS_PAYMENT_SUCCESS_URL:}
+      failure-url: ${JEMIS_PAYMENT_FAILURE_URL:}
   demo-data: false
 
 logging:
