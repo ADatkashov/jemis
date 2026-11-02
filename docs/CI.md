@@ -1,7 +1,7 @@
 # CI
 
 Workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — три джоба: `backend` (тесты Gradle на PostgreSQL),
-`admin` (`npm run build` + тесты), `mobile` (`flutter analyze` + тесты). Запуск: push в `main` и `pull_request` (только из этого же
+`admin` (Flutter web: `flutter analyze` + тесты + `flutter build web`), `mobile` (`flutter analyze` + тесты). Запуск: push в `main` и `pull_request` (только из этого же
 репозитория — форки на раннер не пускаются); новый пуш в ту же ветку/PR отменяет ещё идущий прогон (`concurrency`),
 а пуш в ветку PR не запускает CI второй раз. Отдельный workflow
 [`runner-smoke.yml`](../.github/workflows/runner-smoke.yml) проверяет, что self-hosted раннер берёт джобы.

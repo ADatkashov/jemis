@@ -26,8 +26,10 @@ services:
       JEMIS_OPENAPI_ENABLED: ${JEMIS_OPENAPI_ENABLED:-false}
     ports: ["8080:8080"]
   admin:
-    build: ./admin
+    build: ./admin_app            # Flutter web, served by nginx; /api/ is proxied to BACKEND_URL
     depends_on: [backend]
+    environment:
+      BACKEND_URL: http://backend:8080
     ports: ["8081:80"]
 volumes:
   dbdata:

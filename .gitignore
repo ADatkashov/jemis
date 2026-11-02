@@ -12,8 +12,6 @@ key.properties
 # build output
 build/
 .gradle/
-node_modules/
-dist/
 .dart_tool/
 .flutter-plugins*
 .pub-cache/

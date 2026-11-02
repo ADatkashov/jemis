@@ -52,12 +52,17 @@ jobs:
     runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
     # Never run fork code on a self-hosted runner.
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 22 }
-      - run: cd admin && npm ci && npm run build && npm test
+      - uses: subosito/flutter-action@v2
+        with:
+          # Same pinned version as the mobile job; keep in sync with admin_app/Dockerfile and render-build.sh.
+          flutter-version: "3.47.8"
+          channel: stable
+          # Self-hosted runners keep the SDK on disk; skip the cloud cache (Actions storage quota).
+          cache: ${{ vars.CI_RUNS_ON == '' }}
+      - run: cd admin_app && flutter pub get && flutter analyze && flutter test && flutter build web --release
   mobile:
     runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
     # Never run fork code on a self-hosted runner.
