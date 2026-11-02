@@ -1,0 +1,316 @@
+{
+  "@@locale": "ru",
+  "appName": "JEMIS Admin",
+  "dashboard": "Обзор",
+  "orders": "Заказы",
+  "products": "Товары",
+  "categories": "Категории",
+  "delivery": "Доставка",
+  "promotions": "Промокоды",
+  "customers": "Клиенты",
+  "staff": "Сотрудники",
+  "settings": "Настройки",
+  "audit": "Журнал аудита",
+  "logout": "Выйти",
+  "login": "Войти",
+  "language": "Язык",
+  "menu": "Меню",
+  "save": "Сохранить",
+  "cancel": "Отмена",
+  "search": "Поиск",
+  "loading": "Загрузка…",
+  "retry": "Повторить",
+  "empty": "Ничего не найдено",
+  "edit": "Изменить",
+  "create": "Создать",
+  "enable": "Включить",
+  "disable": "Отключить",
+  "newItem": "Новый",
+  "confirm": "Подтвердить",
+  "active": "Активен",
+  "saved": "Сохранено",
+  "pageOf": "{page} / {total}",
+  "@pageOf": {
+    "placeholders": {
+      "page": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "prevPage": "Предыдущая страница",
+  "nextPage": "Следующая страница",
+  "errorGeneric": "Что-то пошло не так. Повторите попытку.",
+  "errorNetwork": "Нет связи с сервером.",
+  "errorWithCode": "{code}: {message}",
+  "@errorWithCode": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "requiredField": "Обязательное поле",
+  "invalidAmount": "Некорректная сумма",
+  "invalidNumber": "Некорректное число",
+  "email": "Эл. почта",
+  "password": "Пароль",
+  "loginFailed": "Неверные данные или недостаточно прав",
+  "ordersToday": "Заказов сегодня",
+  "paidRevenue": "Оплаченная выручка сегодня",
+  "awaiting": "Ожидают обработки",
+  "inDelivery": "В доставке",
+  "lowStock": "Заканчиваются",
+  "recent": "Последние заказы",
+  "revenueNote": "В выручку входят только заказы, оплаченные сегодня; неоплаченные, отменённые и возвращённые не учитываются.",
+  "colNumber": "№",
+  "colDate": "Дата",
+  "colRecipient": "Получатель",
+  "colStatus": "Статус",
+  "colPayment": "Оплата",
+  "colTotal": "Сумма",
+  "colSku": "Артикул",
+  "colName": "Название",
+  "colPrice": "Цена",
+  "colStock": "Остаток / резерв",
+  "colActive": "Активен",
+  "colCode": "Код",
+  "colDiscount": "Скидка",
+  "colMinOrder": "Мин. заказ",
+  "colUsed": "Использован",
+  "colCity": "Город",
+  "colFee": "Доставка",
+  "colMinimum": "Минимум",
+  "colFreeFrom": "Бесплатно от",
+  "colWindow": "Окно",
+  "colCapacity": "Вместимость / окно",
+  "colDays": "Дни (1=пн)",
+  "colExtraFee": "Доплата",
+  "colEmail": "Эл. почта",
+  "colPhone": "Телефон",
+  "colRole": "Роль",
+  "colTime": "Время",
+  "colActor": "Кто",
+  "colAction": "Действие",
+  "colEntity": "Объект",
+  "colDetails": "Детали",
+  "colSlug": "Slug",
+  "colQty": "Кол-во",
+  "statusPENDING_PAYMENT": "Ожидает оплаты",
+  "statusCONFIRMED": "Подтверждён",
+  "statusACCEPTED": "Принят",
+  "statusPREPARING": "Собирается",
+  "statusREADY_FOR_DELIVERY": "Готов к доставке",
+  "statusASSIGNED_TO_COURIER": "Передан курьеру",
+  "statusPICKED_UP": "Забран курьером",
+  "statusON_THE_WAY": "В пути",
+  "statusDELIVERED": "Доставлен",
+  "statusCANCELLED": "Отменён",
+  "statusREFUNDED": "Возврат",
+  "payPENDING": "Ожидает",
+  "paySUCCEEDED": "Оплачен",
+  "payFAILED": "Ошибка",
+  "payCANCELLED": "Отменён",
+  "payREFUNDED": "Возврат",
+  "unitPIECE": "шт",
+  "unitKG": "кг",
+  "unitG": "г",
+  "unitL": "л",
+  "unitML": "мл",
+  "unitPACK": "уп",
+  "roleADMIN": "Администратор",
+  "roleMANAGER": "Менеджер",
+  "roleCOURIER": "Курьер",
+  "userACTIVE": "Активен",
+  "userDISABLED": "Отключён",
+  "userBLOCKED": "Заблокирован",
+  "searchOrdersHint": "JM-100001 / имя / телефон",
+  "allStatuses": "Все статусы",
+  "orderStatusSection": "Статус",
+  "moveTo": "→ {status}",
+  "@moveTo": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelOrderConfirm": "Отменить этот заказ?",
+  "refund": "Вернуть деньги",
+  "refundConfirm": "Вернуть деньги за этот заказ?",
+  "courier": "Курьер",
+  "offerToCourier": "Предложить курьеру",
+  "courierLine": "Курьер: {name} {phone}",
+  "@courierLine": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "deliverySection": "Доставка",
+  "addrApartment": "кв. {v}",
+  "@addrApartment": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
+  "addrEntrance": "подъезд {v}",
+  "@addrEntrance": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
+  "addrFloor": "этаж {v}",
+  "@addrFloor": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
+  "addrIntercom": "домофон {v}",
+  "@addrIntercom": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
+  "itemsSection": "Товары",
+  "subtotal": "Товары",
+  "discountLine": "Скидка {code}",
+  "@discountLine": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "deliveryFee": "Доставка",
+  "serviceFee": "Сервисный сбор",
+  "total": "Итого",
+  "paymentSection": "Оплата ({method})",
+  "@paymentSection": {
+    "placeholders": {
+      "method": {
+        "type": "String"
+      }
+    }
+  },
+  "deliveryIssues": "Проблемы с доставкой",
+  "timeline": "История",
+  "operatorNotes": "Заметки оператора",
+  "newProduct": "Новый товар",
+  "editProduct": "Редактирование товара",
+  "category": "Категория",
+  "brand": "Бренд",
+  "nameRu": "Название (ru)",
+  "nameKk": "Название (kk)",
+  "nameEn": "Название (en)",
+  "descriptionRu": "Описание (ru)",
+  "descriptionKk": "Описание (kk)",
+  "descriptionEn": "Описание (en)",
+  "unit": "Единица",
+  "soldByWeight": "Продаётся на вес/объём",
+  "stepMilli": "Шаг (в тысячных, 1000 = 1)",
+  "packLabel": "Подпись упаковки",
+  "priceLabel": "Цена, ₸ (за 1 единицу)",
+  "previousPrice": "Прежняя цена, ₸",
+  "imageUrl": "Ссылка на изображение",
+  "stockSummary": "Остаток {stock}, резерв {reserved}",
+  "@stockSummary": {
+    "placeholders": {
+      "stock": {
+        "type": "String"
+      },
+      "reserved": {
+        "type": "String"
+      }
+    }
+  },
+  "adjustBy": "Изменить на (напр. 10 или -2.5)",
+  "reason": "Причина",
+  "applyAdjustment": "Применить корректировку",
+  "invalidPrice": "Некорректная цена",
+  "prevPriceHigher": "Прежняя цена должна быть выше цены",
+  "enterQtyReason": "Укажите количество и причину",
+  "slugLabel": "Slug (a-z, 0-9, -)",
+  "invalidSlug": "Только a-z, 0-9 и «-»",
+  "parent": "Родитель",
+  "iconKey": "Ключ иконки",
+  "sortOrder": "Порядок",
+  "newCategory": "Новая категория",
+  "editCategory": "Редактирование категории",
+  "none": "—",
+  "deliveryZonesNote": "Зоны доставки сейчас сопоставляются только по городу; геокодер и полигоны не подключены.",
+  "zonesTitle": "Зоны, тарифы и минимумы",
+  "slotsTitle": "Окна доставки и вместимость",
+  "couriersTitle": "Курьеры",
+  "couriersNote": "Курьеров создают в разделе «Сотрудники» (роль COURIER).",
+  "courierActive": "активен",
+  "courierDisabled": "отключён",
+  "locationOn": "геолокация включена",
+  "locationOff": "геолокация выключена",
+  "addZone": "Зона",
+  "addWindow": "Окно",
+  "editZone": "Зона доставки",
+  "editWindow": "Окно доставки",
+  "zoneName": "Название",
+  "zoneCity": "Город (должен совпадать с городом адреса клиента)",
+  "deliveryFeeLabel": "Стоимость доставки, ₸",
+  "minOrderLabel": "Минимальный заказ, ₸",
+  "freeFromLabel": "Бесплатная доставка от, ₸",
+  "fromTime": "С",
+  "toTime": "До",
+  "capacityLabel": "Вместимость (заказов)",
+  "daysLabel": "Дни, напр. 1,2,3",
+  "invalidDays": "Формат: числа 1–7 через запятую",
+  "extraFeeLabel": "Доплата, ₸",
+  "invalidTime": "Формат времени ЧЧ:ММ",
+  "newPromo": "Новый промокод",
+  "editPromo": "Редактирование промокода",
+  "promoCode": "Код",
+  "invalidPromoCode": "Только латинские буквы, цифры, «_» и «-»",
+  "promoType": "Тип",
+  "promoPercent": "Процент",
+  "promoFixed": "Фиксированная, ₸",
+  "percentLabel": "Процент (1–100)",
+  "amountLabel": "Сумма, ₸",
+  "maxDiscountLabel": "Макс. скидка, ₸",
+  "minOrderShort": "Мин. заказ, ₸",
+  "startsAt": "Начало",
+  "endsAt": "Окончание",
+  "pickDateTime": "Выбрать",
+  "clear": "Очистить",
+  "totalUses": "Всего использований",
+  "perCustomer": "На клиента",
+  "stackable": "Также на товары со скидкой",
+  "customerOrders": "Заказы",
+  "searchCustomersHint": "Имя, почта или телефон",
+  "fullName": "Полное имя",
+  "phone": "Телефон",
+  "role": "Роль",
+  "passwordMin": "Пароль (мин. 10)",
+  "passwordTooShort": "Минимум 10 символов",
+  "invalidEmail": "Некорректная почта",
+  "newStaff": "Новый сотрудник",
+  "helpDaysAhead": "На сколько дней вперёд (включая сегодня) клиент может заказать",
+  "helpLeadMinutes": "За сколько минут до начала окна его ещё можно выбрать",
+  "helpImmediate": "true включает срочную доставку (по умолчанию выключена)",
+  "helpServiceFee": "Сервисный сбор в тиынах (100 = 1 ₸)",
+  "helpUnpaidTtl": "Через сколько минут неоплаченный онлайн-заказ отменяется",
+  "helpCashEnabled": "true разрешает оплату при получении"
+}
