@@ -41,7 +41,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 17 }
+      # GitHub-hosted ubuntu-latest ships with the Android SDK; setup-android@v3 fails there
+      # ("Failed to find package 'tools'"). Only the self-hosted fallback needs it.
       - uses: android-actions/setup-android@v3
+        if: ${{ vars.CI_RUNS_ON != '' }}
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
