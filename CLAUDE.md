@@ -25,6 +25,6 @@
 
 ## Заметки
 
-- CI: GitHub-hosted раннеры у владельца не выдаются; используется self-hosted раннер (см. `docs/CI.md`, переменная
-  `CI_RUNS_ON`).
+- CI: с 2026-11-04 используются GitHub-hosted раннеры (`ubuntu-latest`); переменная репозитория `CI_RUNS_ON` должна быть не задана.
+  Self-hosted раннер остаётся запасным вариантом (см. `docs/CI.md`).
 - Деплой: Render + Neon (`render.yaml`, `DEPLOY.md`); Blueprint владелец применяет в Render вручную.
