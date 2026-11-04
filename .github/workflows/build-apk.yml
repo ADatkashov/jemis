@@ -1,22 +1,42 @@
 name: Build APK
 
-# Builds a release APK of the mobile app on the self-hosted runner (docs/CI.md "Сборка APK").
-# Run by hand: Actions → Build APK → Run workflow. The file is attached to the run as an artifact.
+# Builds the Android APK/AAB of the mobile app on GitHub-hosted runners (docs/CI.md "Сборка APK").
+#  - push to main touching mobile/: build, attach to the run as an artifact (14 days);
+#  - manual run (Actions → Build APK → Run workflow): same, plus optional GitHub Release (publish_release).
+# Signed with the release keystore when the ANDROID_* secrets are set, otherwise with the debug key.
+# Nothing here goes to a store or to production.
 on:
+  push:
+    branches: [main]
+    paths: ["mobile/**", ".github/workflows/build-apk.yml"]
   workflow_dispatch:
     inputs:
       api_base_url:
-        description: "API URL baked into the app (e.g. https://jemis-api.onrender.com); empty = repo variable API_BASE_URL"
+        description: "API URL baked into the app; empty = repo variable API_BASE_URL, then the default below"
         required: false
         default: ""
+      publish_release:
+        description: "Also publish a GitHub Release with the APK/AAB (needs the release keystore secrets)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: build-apk-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
+
+env:
+  FLUTTER_VERSION: "3.47.8"
+  DEFAULT_API_BASE_URL: "https://jemis-backend.onrender.com"
 
 jobs:
   apk:
     runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
     timeout-minutes: 40
+    permissions:
+      contents: write # only used by the release step below
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -24,19 +44,71 @@ jobs:
       - uses: android-actions/setup-android@v3
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.47.8"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: ${{ vars.CI_RUNS_ON == '' }}
+
+      - name: Release signing (optional)
+        id: signing
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_B64" ] || [ -z "$STORE_PASSWORD" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASSWORD" ]; then
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::ANDROID_* secrets not set: building with the debug key (not for stores)"
+            exit 0
+          fi
+          mkdir -p "$RUNNER_TEMP/keystore"
+          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/keystore/release.jks"
+          cat > mobile/android/key.properties <<PROPS
+          storeFile=$RUNNER_TEMP/keystore/release.jks
+          storePassword=$STORE_PASSWORD
+          keyAlias=$KEY_ALIAS
+          keyPassword=$KEY_PASSWORD
+          PROPS
+          echo "signed=true" >> "$GITHUB_OUTPUT"
+
       - name: Build
         env:
-          API_BASE_URL: ${{ inputs.api_base_url || vars.API_BASE_URL }}
+          API_BASE_URL: ${{ inputs.api_base_url || vars.API_BASE_URL || env.DEFAULT_API_BASE_URL }}
         run: |
           cd mobile
           flutter pub get
-          if [ -n "$API_BASE_URL" ]; then DEFINE="--dart-define=API_BASE_URL=$API_BASE_URL"; else DEFINE=""; fi
-          flutter build apk --release $DEFINE
+          flutter build apk --release --dart-define=API_BASE_URL="$API_BASE_URL"
+          if [ "${{ steps.signing.outputs.signed }}" = "true" ]; then
+            flutter build appbundle --release --dart-define=API_BASE_URL="$API_BASE_URL"
+          fi
+
+      - name: Name outputs
+        id: out
+        run: |
+          v=$(grep '^version:' mobile/pubspec.yaml | sed 's/version: *//' | cut -d+ -f1 | tr -d '[:space:]')
+          mkdir -p out
+          cp mobile/build/app/outputs/flutter-apk/app-release.apk "out/jemis-$v.apk"
+          [ -f mobile/build/app/outputs/bundle/release/app-release.aab ] && cp mobile/build/app/outputs/bundle/release/app-release.aab "out/jemis-$v.aab" || true
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+
       - uses: actions/upload-artifact@v4
         with:
           name: jemis-apk
-          path: mobile/build/app/outputs/flutter-apk/app-release.apk
+          path: out/*
           retention-days: 14
+
+      - name: Publish GitHub Release
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.publish_release && steps.signing.outputs.signed == 'true' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: jemis-v${{ steps.out.outputs.version }}-${{ github.run_number }}
+          name: "jemis v${{ steps.out.outputs.version }} (build ${{ github.run_number }})"
+          target_commitish: ${{ github.sha }}
+          files: out/*
+          body: |
+            Release-signed build from commit `${{ github.sha }}`.
+            APK — install on a device; AAB — for Google Play Console (upload is done by the owner).
+
+      - name: Remove keystore
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/keystore" mobile/android/key.properties

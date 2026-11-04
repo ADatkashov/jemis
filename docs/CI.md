@@ -45,8 +45,18 @@ WSL integration для Ubuntu; опционально включить `systemd=
 
 ## Сборка APK
 
-Workflow [`build-apk.yml`](../.github/workflows/build-apk.yml), запуск вручную: *Actions → Build APK → Run workflow*.
-Адрес API вводится в поле `api_base_url` (или задаётся переменной репозитория `API_BASE_URL`); без него приложение
-соберётся с адресом эмулятора `http://10.0.2.2:8080`. Готовый `app-release.apk` лежит в артефактах прогона (14 дней).
-Раннеру нужен доступ к `dl.google.com` (Android SDK ставится шагом `android-actions/setup-android`, ~1–2 ГБ при
-первом запуске). Сборка пока подписана debug-ключом — для публикации в сторах нужен собственный keystore.
+Workflow [`build-apk.yml`](../.github/workflows/build-apk.yml) (схема взята из `ADatkashov/zairo`, `android-release.yml` /
+`build-artifacts.yml`), раннер — `CI_RUNS_ON` или `ubuntu-latest`.
+
+- **Автоматически:** push в `main`, затронувший `mobile/**`, собирает APK; файл лежит в артефактах прогона (14 дней).
+- **Вручную:** *Actions → Build APK → Run workflow*. Поля: `api_base_url` (иначе переменная репозитория `API_BASE_URL`,
+  иначе `https://jemis-backend.onrender.com`) и `publish_release` — опубликовать GitHub Release с APK и AAB
+  (только если задан release-keystore).
+- **Подпись:** если заданы секреты репозитория `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`,
+  `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD` — сборка подписывается release-ключом (CI пишет `mobile/android/key.properties`,
+  он в `.gitignore` и удаляется в конце джоба) и дополнительно собирается `.aab` для Google Play. Без секретов —
+  debug-ключ (для тестов, не для сторов). Секреты вводит владелец: *Settings → Secrets and variables → Actions*.
+  Keystore: `keytool -genkeypair -v -keystore release.jks -alias jemis -keyalg RSA -keysize 2048 -validity 10000`,
+  затем `base64 -w0 release.jks` → значение `ANDROID_KEYSTORE_BASE64`. Храните keystore в надёжном месте: потеряв его,
+  приложение в сторе нельзя будет обновить.
+- Публикация в сторах и выкладка на прод в workflow не входит.
