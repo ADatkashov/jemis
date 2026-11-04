@@ -12,12 +12,11 @@ concurrency:
 permissions:
   contents: read
 
-# Repo variable CI_RUNS_ON switches every job to a self-hosted runner, e.g. ["self-hosted","linux"]
-# (docs/CI.md "Self-hosted runner"); unset = GitHub-hosted ubuntu-latest.
+# Runs on GitHub-hosted ubuntu-latest (the CI_RUNS_ON variable is no longer used).
 
 jobs:
   backend:
-    runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
+    runs-on: ubuntu-latest
     # Never run fork code on a self-hosted runner.
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     timeout-minutes: 30
@@ -34,8 +33,7 @@ jobs:
         with: { distribution: temurin, java-version: 17 }
       - uses: gradle/actions/setup-gradle@v4
         with:
-          # Self-hosted runners keep ~/.gradle on disk; skip the cloud cache (Actions storage quota).
-          cache-disabled: ${{ vars.CI_RUNS_ON != '' }}
+          cache-disabled: false
       - name: Test
         env:
           JEMIS_TEST_DB_URL: jdbc:postgresql://localhost:${{ job.services.postgres.ports['5432'] }}/jemis_test
@@ -49,7 +47,7 @@ jobs:
           retention-days: 3
           if-no-files-found: ignore
   admin:
-    runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
+    runs-on: ubuntu-latest
     # Never run fork code on a self-hosted runner.
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     timeout-minutes: 15
@@ -59,7 +57,7 @@ jobs:
         with: { node-version: 22 }
       - run: cd admin && npm ci && npm run build && npm test
   mobile:
-    runs-on: ${{ fromJSON(vars.CI_RUNS_ON || '"ubuntu-latest"') }}
+    runs-on: ubuntu-latest
     # Never run fork code on a self-hosted runner.
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     timeout-minutes: 30
@@ -70,6 +68,5 @@ jobs:
           # Pinned so CI doesn't shift when a new Flutter ships; pubspec needs Dart ^3.13.7.
           flutter-version: "3.47.8"
           channel: stable
-          # Self-hosted runners keep the SDK on disk; skip the cloud cache (Actions storage quota).
-          cache: ${{ vars.CI_RUNS_ON == '' }}
+          cache: true
       - run: cd mobile && flutter pub get && flutter analyze && flutter test
